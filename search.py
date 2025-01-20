@@ -20,6 +20,9 @@ Pacman agents (in searchAgents.py).
 import util
 from util import Stack
 from util import Queue
+from util import PriorityQueue
+
+
 
 class SearchProblem:
     """
@@ -132,43 +135,83 @@ def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
     
-    stack = Queue()
+    queue = Queue()
     visite = set()
 
-    stack.push((problem.getStartState(), []))
+    queue.push((problem.getStartState(), []))
    
 
-    while (not stack.isEmpty()):
-        NodeInspecting, path = stack.pop()
+    while (not queue.isEmpty()):
+        NodeInspecting, path = queue.pop()
 
         if(NodeInspecting not in visite):
-            print("node currently inspecting:" , NodeInspecting)
+            #print("node currently inspecting:" , NodeInspecting)
             visite.add(NodeInspecting)
 
-            print("Is the start a goal?", problem.isGoalState(NodeInspecting))
+            #rint("Is the start a goal?", problem.isGoalState(NodeInspecting))
             if(problem.isGoalState(NodeInspecting)):
                 print("Goal reached:", NodeInspecting)
                 print("Path to goal:", path)
-                print("Length of path:", len(path))
-                return path 
-            
+                return
+               
+               
 
             successor = problem.getSuccessors(NodeInspecting)
             
             for successor, action, cost in problem.getSuccessors(NodeInspecting):
                 # Ajouter le successor à la pile avec le chemin mis à jour
-                stack.push((successor, path + [action]))
+                queue.push((successor, path + [action]))
      
 
             
 
-    print("Poststack:", stack)
-    print("PostVisite:", visite)
+    #print("Poststack:", stack)
+    #print("PostVisite:", visite)
+ 
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+
+    priorityQueue = PriorityQueue()
+    visite = set()
+
+    priorityQueue.push((problem.getStartState(), [], 0), 0)
+   
+
+    while (not priorityQueue.isEmpty()):
+        NodeInspecting, path, cost = priorityQueue.pop()
+
+        if(NodeInspecting not in visite):
+            #print("node currently inspecting:" , NodeInspecting)
+            visite.add(NodeInspecting)
+
+            #rint("Is the start a goal?", problem.isGoalState(NodeInspecting))
+            if(problem.isGoalState(NodeInspecting)):
+                print("Goal reached:", NodeInspecting)
+                print("Path to goal:", path)
+        
+                return path
+               
+               
+
+            successor = problem.getSuccessors(NodeInspecting)
+            
+            for successor, action, stepCost in problem.getSuccessors(NodeInspecting):
+                
+                newCost = cost + stepCost
+            
+                print(newCost)
+                priorityQueue.push((successor, path + [action], newCost), newCost)
+     
+    return []
+            
+
+    #print("Poststack:", stack)
+    #print("PostVisite:", visite)
+ 
+    
+    
 
 def nullHeuristic(state, problem=None):
     """
