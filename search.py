@@ -114,8 +114,7 @@ def depthFirstSearch(problem):
                 return path 
             
 
-            successor = problem.getSuccessors(NodeInspecting)
-            
+        
             for successor, action, cost in problem.getSuccessors(NodeInspecting):
                 # Ajouter le successor à la pile avec le chemin mis à jour
                 stack.push((successor, path + [action]))
@@ -152,11 +151,11 @@ def breadthFirstSearch(problem):
             if(problem.isGoalState(NodeInspecting)):
                 print("Goal reached:", NodeInspecting)
                 print("Path to goal:", path)
-                return
+                return path
                
                
 
-            successor = problem.getSuccessors(NodeInspecting)
+
             
             for successor, action, cost in problem.getSuccessors(NodeInspecting):
                 # Ajouter le successor à la pile avec le chemin mis à jour
@@ -194,14 +193,11 @@ def uniformCostSearch(problem):
                 return path
                
                
-
-            successor = problem.getSuccessors(NodeInspecting)
             
             for successor, action, stepCost in problem.getSuccessors(NodeInspecting):
                 
                 newCost = cost + stepCost
-            
-                print(newCost)
+        
                 priorityQueue.push((successor, path + [action], newCost), newCost)
      
     return []
@@ -223,7 +219,38 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    priorityQueue = PriorityQueue()
+    visite = set()
+
+    startState = problem.getStartState()
+    priorityQueue.push((startState, [], 0), 0)
+   
+
+    while (not priorityQueue.isEmpty()):
+        NodeInspecting, path, cost = priorityQueue.pop()
+
+        if NodeInspecting in visite:
+           continue
+
+        visite.add(NodeInspecting)
+
+         
+        if(problem.isGoalState(NodeInspecting)):
+            print("Goal reached:", NodeInspecting)
+            print("Path to goal:", path)
+        
+            return path
+               
+               
+
+        for successor, action, stepCost in problem.getSuccessors(NodeInspecting):
+                
+            newCost = cost + stepCost
+            priority = newCost + heuristic(successor, problem)
+        
+            priorityQueue.push((successor, path + [action], newCost), priority)
+     
+    return []
 
 
 # Abbreviations
