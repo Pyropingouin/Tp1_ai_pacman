@@ -295,39 +295,42 @@ class CornersProblem(search.SearchProblem):
         space)
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        return (self.startingPosition, frozenset(self.corners))
 
     def isGoalState(self, state):
         """
         Returns whether this search state is a goal state of the problem.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        position, remainingCorners = state
+        return len(remainingCorners) == 0
 
+    
     def getSuccessors(self, state):
-        """
-        Returns successor states, the actions they require, and a cost of 1.
-
-         As noted in search.py:
-            For a given state, this should return a list of triples, (successor,
-            action, stepCost), where 'successor' is a successor to the current
-            state, 'action' is the action required to get there, and 'stepCost'
-            is the incremental cost of expanding to that successor
-        """
-
+         
         successors = []
+        position, remainingCorners = state
+        x, y = position
+
         for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
-            # Add a successor state to the successor list if the action is legal
-            # Here's a code snippet for figuring out whether a new position hits a wall:
-            #   x,y = currentPosition
-            #   dx, dy = Actions.directionToVector(action)
-            #   nextx, nexty = int(x + dx), int(y + dy)
-            #   hitsWall = self.walls[nextx][nexty]
+            dx, dy = Actions.directionToVector(action)
+            nextx, nexty = int(x + dx), int(y + dy)
 
-            "*** YOUR CODE HERE ***"
+            # Vérifier si le prochain mouvement est dans les limites du labyrinthe
+            if not self.walls[nextx][nexty]:
+                nextPosition = (nextx, nexty)  # Définir la prochaine position
+                nextCorners = frozenset(remainingCorners)  # Copier les coins restants
 
-        self._expanded += 1 # DO NOT CHANGE
+                # Mettre à jour les coins restants si la position suivante est un coin
+                if nextPosition in nextCorners:
+                    nextCorners = nextCorners - {nextPosition}
+
+                # Ajouter à la liste des successeurs
+                successors.append(((nextPosition, nextCorners), action, 1))
+
+        self._expanded += 1  # Ne pas modifier
         return successors
+   
 
     def getCostOfActions(self, actions):
         """
