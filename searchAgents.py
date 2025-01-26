@@ -469,9 +469,35 @@ def foodHeuristic(state, problem):
     Subsequent calls to this heuristic can access
     problem.heuristicInfo['wallCount']
     """
+def foodHeuristic(state, problem):
+    """
+    A more precise heuristic for the FoodSearchProblem.
+    This heuristic computes the minimum distance to clear all food dots.
+    """
     position, foodGrid = state
-    "*** YOUR CODE HERE ***"
-    return 0
+    remainingFood = foodGrid.asList()
+
+    # Si toutes les nourritures ont été mangées
+    if not remainingFood:
+        return 0
+
+    # Trouver la distance minimale pour atteindre un point de nourriture
+    distancesToFood = [
+        util.manhattanDistance(position, food) for food in remainingFood
+    ]
+    minDistance = min(distancesToFood)
+
+    # Trouver la distance maximale entre les points de nourriture restants
+    maxFoodDistance = 0
+    for food1 in remainingFood:
+        for food2 in remainingFood:
+            maxFoodDistance = max(maxFoodDistance, util.manhattanDistance(food1, food2))
+
+    # Combiner la distance minimale avec une estimation des distances restantes
+    return minDistance + maxFoodDistance
+
+   
+    
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
