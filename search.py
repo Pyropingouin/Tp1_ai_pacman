@@ -103,32 +103,14 @@ def depthFirstSearch(problem):
         NodeInspecting, path = stack.pop()
 
         if(NodeInspecting not in visite):
-            print("node currently inspecting:" , NodeInspecting)
             visite.add(NodeInspecting)
 
-            #print("Is the start a goal?", problem.isGoalState(NodeInspecting))
             if(problem.isGoalState(NodeInspecting)):
-                print("Goal reached:", NodeInspecting)
-                print("Path to goal:", path)
-                print("Length of path:", len(path))
                 return path 
-            
 
-        
             for successor, action, cost in problem.getSuccessors(NodeInspecting):
                 # Ajouter le successor à la pile avec le chemin mis à jour
-                stack.push((successor, path + [action]))
-     
-
-            
-
-    print("Poststack:", stack)
-    print("PostVisite:", visite)
-
-    #print("Start:", problem.getStartState())
-    #print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
-    #print("Start's successors:", problem.getSuccessors(problem.getStartState()))
-   
+                stack.push((successor, path + [action]))  
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
@@ -144,29 +126,16 @@ def breadthFirstSearch(problem):
         NodeInspecting, path = queue.pop()
 
         if(NodeInspecting not in visite):
-            #print("node currently inspecting:" , NodeInspecting)
             visite.add(NodeInspecting)
 
-            #rint("Is the start a goal?", problem.isGoalState(NodeInspecting))
             if(problem.isGoalState(NodeInspecting)):
-                print("Goal reached:", NodeInspecting)
-                print("Path to goal:", path)
                 return path
-               
-               
 
-
-            
             for successor, action, cost in problem.getSuccessors(NodeInspecting):
                 # Ajouter le successor à la pile avec le chemin mis à jour
                 queue.push((successor, path + [action]))
      
 
-            
-
-    #print("Poststack:", stack)
-    #print("PostVisite:", visite)
- 
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
@@ -182,14 +151,9 @@ def uniformCostSearch(problem):
         NodeInspecting, path, cost = priorityQueue.pop()
 
         if(NodeInspecting not in visite):
-            #print("node currently inspecting:" , NodeInspecting)
             visite.add(NodeInspecting)
 
-            #rint("Is the start a goal?", problem.isGoalState(NodeInspecting))
             if(problem.isGoalState(NodeInspecting)):
-                print("Goal reached:", NodeInspecting)
-                print("Path to goal:", path)
-        
                 return path
                
                
@@ -201,13 +165,7 @@ def uniformCostSearch(problem):
                 priorityQueue.push((successor, path + [action], newCost), newCost)
      
     return []
-            
-
-    #print("Poststack:", stack)
-    #print("PostVisite:", visite)
- 
-    
-    
+  
 
 def nullHeuristic(state, problem=None):
     """
@@ -236,8 +194,6 @@ def aStarSearch(problem, heuristic=nullHeuristic):
 
          
         if(problem.isGoalState(NodeInspecting)):
-            print("Goal reached:", NodeInspecting)
-            print("Path to goal:", path)
         
             return path
                

@@ -328,7 +328,7 @@ class CornersProblem(search.SearchProblem):
                 # Ajouter à la liste des successeurs
                 successors.append(((nextPosition, nextCorners), action, 1))
 
-        self._expanded += 1  # Ne pas modifier
+        self._expanded += 1 
         return successors
    
 
